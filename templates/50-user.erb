@@ -1,0 +1,40 @@
+use strict;
+
+# Default antivirus checking mode
+@bypass_virus_checks_maps = (
+   \%bypass_virus_checks, \@bypass_virus_checks_acl, \$bypass_virus_checks_re);
+
+# Default SPAM checking mode
+@bypass_spam_checks_maps = (
+   \%bypass_spam_checks, \@bypass_spam_checks_acl, \$bypass_spam_checks_re);
+
+# We disable quarantine
+$QUARANTINEDIR = undef;
+
+# SPAM subjects and headers
+$sa_spam_subject_tag = undef;
+$sa_tag_level_deflt  = -9999;
+$sa_tag2_level_deflt = 5;
+$sa_kill_level_deflt = 6.3;
+$sa_dsn_cutoff_level = 10;
+
+# Limits and bypasses
+$sa_mail_body_size_limit  = 200*1024;
+$sa_local_tests_only      = 0;
+$enable_dkim_verification = 1;
+
+# SPAM and viruses destinations
+$final_virus_destiny      = D_DISCARD;
+$final_banned_destiny     = D_BOUNCE;
+$final_spam_destiny       = D_PASS;
+$final_bad_header_destiny = D_PASS;
+
+# Email adresses
+$virus_admin = "postmaster\@$mydomain";
+$spam_admin  = "postmaster\@$mydomain";
+
+# Local domains (for which headers will be added)
+@local_domains_maps = ( [<% managed_mail_domains and managed_mail_domains.each { |managed_mail_domain| %>"<%= managed_mail_domain %>", <% } %>] );
+
+#------------ Do not modify anything below this line -------------
+1;  # ensure a defined return
