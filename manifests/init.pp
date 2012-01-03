@@ -43,7 +43,7 @@ class amavis (
     checksum  => md5,
     owner     => root,
     group     => root,
-    mode      => 0644,
+    mode      => '0644',
     content   => template('amavis/50-user.erb'),
   }
 }
