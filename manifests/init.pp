@@ -1,6 +1,9 @@
 class amavis (
   $managed_mail_domains
   ) {
+
+  File { require => Package['amavisd-new'] }
+
   package { [ 'amavisd-new',
               'clamav',
               'clamav-daemon',
@@ -36,7 +39,7 @@ class amavis (
     require   => Package['clamav-daemon'],
   }
 
-  file{'/etc/amavis/conf.d/50-user':
+  file {'/etc/amavis/conf.d/50-user':
     ensure    => file,
     require   => Package['amavisd-new'],
     notify    => Service['amavis'],
@@ -45,5 +48,18 @@ class amavis (
     group     => root,
     mode      => '0644',
     content   => template('amavis/50-user.erb'),
+  }
+
+  file { '/var/lib/amavis/tmp':
+    ensure => directory,
+    mode   => '0775',
+    owner  => 'amavis',
+    group  => 'amavis',
+  }
+  file { '/var/lib/amavis/virusmails':
+    ensure => directory,
+    mode   => '0775',
+    owner  => 'amavis',
+    group  => 'amavis',
   }
 }
